@@ -1,0 +1,21 @@
+server:
+  port: 8085
+
+spring:
+  docker:
+    compose:
+      file: C:\Users\ELTAJ\Desktop\ms-1\loans\compose.yaml
+
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    generate-ddl: true
+    show-sql: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: myuser
+    password: secret
+    url: jdbc:postgresql://localhost:5432/mydatabase
