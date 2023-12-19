@@ -22,3 +22,15 @@ spring:
     console:
       enabled: true
 
+  config:
+    import:
+      - "application_qa.yaml"
+  profiles:
+    active:
+      - "qa"
+
+build:
+  version: "1.0"
+
+
+

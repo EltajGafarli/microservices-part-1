@@ -1,5 +1,6 @@
 package com.example.accounts.controller;
 
+import com.example.accounts.dto.AccountsContactInfoDto;
 import com.example.accounts.dto.CustomerDto;
 import com.example.accounts.dto.ResponseDto;
 import com.example.accounts.service.AccountsService;
@@ -7,8 +8,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
-import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -25,7 +28,34 @@ import java.awt.*;
 public class AccountsController {
 
     private final AccountsService accountsService;
+    private final Environment environment;
+    private final AccountsContactInfoDto accountsContactInfoDto;
 
+    @Value("${build.version}")
+    private String buildVersion;
+
+    @GetMapping(path = "/contact-info")
+    public ResponseEntity<AccountsContactInfoDto> contactInfo() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountsContactInfoDto);
+    }
+
+    @GetMapping(path = "/java-home")
+    public ResponseEntity<?> getJavaVersion() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Map.of(
+                        "Java Home", Objects.requireNonNull(environment.getProperty("build.version"))
+                ));
+    }
+
+    @GetMapping(path = "/build-version")
+    public ResponseEntity<?> getBuildVersion() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Map.of("buildVersion", buildVersion));
+    }
 
     @GetMapping(path = "/fetch")
     public CustomerDto fetchAccountDetails(@RequestParam String mobileNumber) {
