@@ -5,17 +5,20 @@ spring:
   docker:
     compose:
       file: C:\Users\ELTAJ\Desktop\ms-1\loans\compose.yaml
+      enabled: false
 
 
   jpa:
     open-in-view: false
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
-    database: postgresql
-    generate-ddl: true
     show-sql: true
   datasource:
-    driver-class-name: org.postgresql.Driver
-    username: myuser
-    password: secret
-    url: jdbc:postgresql://localhost:5432/mydatabase
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: ''
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true

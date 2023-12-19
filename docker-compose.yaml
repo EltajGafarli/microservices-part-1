@@ -1,0 +1,38 @@
+services:
+  loans:
+    image: "eltajgafarli/loans"
+    container_name: "loans-ms"
+    ports:
+      - "8085:8085"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - ms-network
+  cards:
+    image: "cards"
+    container_name: "cards-ms"
+    ports:
+      - "8086:8086"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - ms-network
+
+  accounts:
+    image: "accounts:s1"
+    container_name: "accounts-ms"
+    ports:
+      - "8088:8088"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - ms-network
+networks:
+  ms-network:
+    driver: "bridge"
