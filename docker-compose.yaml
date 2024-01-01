@@ -1,6 +1,6 @@
 services:
   loans:
-    build: "loans/Dockerfile"
+    build: "loans"
     container_name: "loans-ms"
     ports:
       - "8085:0"
@@ -11,7 +11,7 @@ services:
     networks:
       - ms-network
   cards:
-    build: "cards/Dockerfile"
+    build: "cards"
     container_name: "cards-ms"
     ports:
       - "8086:8086"
@@ -23,7 +23,7 @@ services:
       - ms-network
 
   accounts:
-    build: "accounts/Dockerfile"
+    build: "accounts"
     container_name: "accounts-ms"
     ports:
       - "8088:8088"
@@ -34,7 +34,7 @@ services:
     networks:
       - ms-network
   eurka_server:
-    build: "eurekaserver/Dockerfile"
+    build: "eurekaserver"
     container_name: "eureka_server"
     ports:
       - "8070:8070"
@@ -49,11 +49,11 @@ services:
       - ms-network
 
   gateway:
-    build: "gatewayserver/Dockerfile"
+    build: "gatewayserver"
     container_name: "gateway"
     ports:
       - "8086:8086"
-    depends_on:
+    depends_on: 
       eurka_server:
         condition: service_healthy
 
