@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on_profile: "qa"
+
+accounts:
+  message: "Welcome to EltajGafarliBank accounts related local APIs"
+  contactDetails:
+    name: "John Doe - Developer"
+    email: "eltaj@gmail.com"
+  onCallSupport:
+    - (555) 555-1234
+    - (555) 523-1345

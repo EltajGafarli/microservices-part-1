@@ -1,0 +1,43 @@
+server:
+  port: 0
+
+spring:
+  docker:
+    compose:
+      file: C:\Users\ELTAJ\Desktop\ms-1\loans\compose.yaml
+      enabled: false
+
+
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: ''
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+
+  profiles:
+    active: git
+
+  application:
+    name: "loans"
+
+eureka:
+  instance:
+    prefer-ip-address: true
+
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
