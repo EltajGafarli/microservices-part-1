@@ -1,9 +1,9 @@
 services:
   loans:
-    image: "eltajgafarli/loans"
+    build: "loans/Dockerfile"
     container_name: "loans-ms"
     ports:
-      - "8085:8085"
+      - "8085:0"
     deploy:
       resources:
         limits:
@@ -11,7 +11,7 @@ services:
     networks:
       - ms-network
   cards:
-    image: "cards"
+    build: "cards/Dockerfile"
     container_name: "cards-ms"
     ports:
       - "8086:8086"
@@ -23,7 +23,7 @@ services:
       - ms-network
 
   accounts:
-    image: "accounts:s1"
+    build: "accounts/Dockerfile"
     container_name: "accounts-ms"
     ports:
       - "8088:8088"
@@ -33,6 +33,30 @@ services:
           memory: 700m
     networks:
       - ms-network
+  eurka_server:
+    build: "eurekaserver/Dockerfile"
+    container_name: "eureka_server"
+    ports:
+      - "8070:8070"
+    depends_on:
+      accounts:
+        condition: service_healthy
+      cards:
+        condition: service_healthy
+      loans:
+        condition: service_healthy
+    networks:
+      - ms-network
+
+  gateway:
+    build: "gatewayserver/Dockerfile"
+    container_name: "gateway"
+    ports:
+      - "8086:8086"
+    depends_on:
+      eurka_server:
+        condition: service_healthy
+
 networks:
   ms-network:
     driver: "bridge"

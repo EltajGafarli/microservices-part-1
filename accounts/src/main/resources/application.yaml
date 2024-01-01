@@ -1,5 +1,5 @@
 server:
-  port: 8084
+  port: 0
 
 spring:
   docker:
@@ -23,14 +23,40 @@ spring:
       enabled: true
 
   config:
-    import:
-      - "application_qa.yaml"
+    import: "optional:configserver:http://localhost:8071/"
   profiles:
-    active:
-      - "qa"
+    active: "prod"
+
+  application:
+    name: "accounts"
+
+
 
 build:
   version: "1.0"
 
+eureka:
+  instance:
+    prefer-ip-address: true
+
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
 
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: "accounts"
+    description: "Eltaj Bank Application"
+    version: "1.0.0"
